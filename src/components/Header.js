@@ -20,7 +20,6 @@ class Header extends React.Component {
 
   render() {
     const { user, isLoading } = this.state;
-    console.log(user);
     return (
 
       <header data-testid="header-component">
@@ -44,7 +43,6 @@ class Header extends React.Component {
             <li>
               <Link data-testid="link-to-profile" to="/profile">Perfil</Link>
             </li>
-
           </ul>
         </nav>
       </header>
