@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Header from '../components/Header';
 import getMusics from '../services/musicsAPI';
 import MusicCard from '../components/MusicCard';
-import { addSong, getFavoriteSongs } from '../services/favoriteSongsAPI';
+import { addSong, getFavoriteSongs, removeSong } from '../services/favoriteSongsAPI';
 import Loading from './Loading';
 
 class Album extends React.Component {
@@ -35,10 +35,24 @@ class Album extends React.Component {
     this.setState({ data: musicList });
   };
 
-  fetchFavoritSong = async (element) => {
+  // fetchFavoritSong = async (element) => {
+  //   this.setState({ isLoading: true });
+  //   await addSong(element);
+  //   this.setState({ isLoading: false });
+  // };
+
+  fetchFavoritSong = async (e, element) => {
     this.setState({ isLoading: true });
-    await addSong(element);
-    this.setState({ isLoading: false });
+
+    if (e.target.checked === false) {
+      await removeSong(element);
+      this.setState({ isLoading: false });
+    }
+
+    if (e.target.checked === true) {
+      await addSong(element);
+      this.setState({ isLoading: false });
+    }
   };
 
   // Essa funcao foi com ajuda desse link -> https://contactmentor.com/checkbox-list-react-js-example/
@@ -76,7 +90,12 @@ class Album extends React.Component {
               value={ element.trackName }
               onChange={ (e) => {
                 this.handleChange(e);
-                this.fetchFavoritSong(element, element.trackId);
+                this.fetchFavoritSong(e, element);
+
+                // if (e.target.checked) {
+                //   this.removeFavortSong(element);
+                // }
+                // this.fetchFavoritSong(element, element.trackId);
               } }
               checked={ favoriteSongs.includes(element.trackName.toString()) }
             />)))
