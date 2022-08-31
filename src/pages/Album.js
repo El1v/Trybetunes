@@ -35,12 +35,6 @@ class Album extends React.Component {
     this.setState({ data: musicList });
   };
 
-  // fetchFavoritSong = async (element) => {
-  //   this.setState({ isLoading: true });
-  //   await addSong(element);
-  //   this.setState({ isLoading: false });
-  // };
-
   fetchFavoritSong = async (e, element) => {
     this.setState({ isLoading: true });
 
@@ -91,11 +85,6 @@ class Album extends React.Component {
               onChange={ (e) => {
                 this.handleChange(e);
                 this.fetchFavoritSong(e, element);
-
-                // if (e.target.checked) {
-                //   this.removeFavortSong(element);
-                // }
-                // this.fetchFavoritSong(element, element.trackId);
               } }
               checked={ favoriteSongs.includes(element.trackName.toString()) }
             />)))
