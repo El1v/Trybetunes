@@ -28,7 +28,7 @@ class Profile extends React.Component {
     } else {
       profile = (
         <div>
-          <Link to="/profile/edit"><p>Editar perfil.</p></Link>
+          <Link to="/profile/edit"><p>Editar perfil</p></Link>
           <img
             src={ user.image }
             alt={ `Foto de perfil de ${user.name}` }
