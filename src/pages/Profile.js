@@ -26,19 +26,19 @@ class Profile extends React.Component {
     if (isLoading) {
       profile = <Loading />;
     } else {
-      console.log(user);
       profile = (
         <div>
+          <Link to="/profile/edit"><p>Editar perfil.</p></Link>
           <img
             src={ user.image }
             alt={ `Foto de perfil de ${user.name}` }
             data-testid="profile-image"
           />
-          <Link to="/profile/edit">Editar perfil</Link>
           <p>{user.name}</p>
           <p>{user.email}</p>
           <p>{user.description}</p>
-        </div>);
+        </div>
+      );
     }
 
     return (
