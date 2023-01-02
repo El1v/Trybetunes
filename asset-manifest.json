@@ -1,8 +1,8 @@
 {
   "files": {
-    "main.js": "/app-toot-name/static/js/main.9d3d2d88.js",
-    "index.html": "/app-toot-name/index.html",
-    "main.9d3d2d88.js.map": "/app-toot-name/static/js/main.9d3d2d88.js.map"
+    "main.js": "/trybetunes/static/js/main.9d3d2d88.js",
+    "index.html": "/trybetunes/index.html",
+    "main.9d3d2d88.js.map": "/trybetunes/static/js/main.9d3d2d88.js.map"
   },
   "entrypoints": [
     "static/js/main.9d3d2d88.js"
