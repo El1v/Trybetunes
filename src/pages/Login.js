@@ -50,7 +50,7 @@ class Login extends React.Component {
               label="Nome"
               variant="outlined"
               name="user"
-              fullWidth="true"
+              fullWidth
               value={ user }
               type="text"
               data-testid="login-name-input"
@@ -60,7 +60,7 @@ class Login extends React.Component {
             <Button
               variant="contained"
               data-testid="login-submit-button"
-              fullWidth="true"
+              fullWidth
               disabled={ isDisabled }
               onClick={ async () => {
                 this.setState({ isLoading: 'loading' });

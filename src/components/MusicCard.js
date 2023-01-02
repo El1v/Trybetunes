@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {
   Box,
   Paper,
-  CardContent, CardMedia, IconButton, Typography, FormGroup, FormControlLabel, Checkbox,
+  CardContent, CardMedia, Typography, FormGroup, FormControlLabel, Checkbox,
 } from '@mui/material';
 
 class MusicCard extends React.Component {
@@ -38,15 +38,13 @@ class MusicCard extends React.Component {
           </CardContent>
 
           <Box sx={ { display: 'flex', alignItems: 'center', pl: 1, pb: 1 } }>
-            <IconButton aria-label="play/pause">
-              <audio data-testid="audio-component" src={ previewUrl } controls>
-                <track kind="captions" />
-                O seu navegador não suporta o elemento
-                {' '}
-                <code>audio</code>
-                .
-              </audio>
-            </IconButton>
+            <audio data-testid="audio-component" src={ previewUrl } controls>
+              <track kind="captions" />
+              O seu navegador não suporta o elemento
+              {' '}
+              <code>audio</code>
+              .
+            </audio>
 
           </Box>
 
