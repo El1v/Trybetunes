@@ -1,8 +1,10 @@
 import React from 'react';
-import { Redirect, Route } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
+import { Button, TextField } from '@mui/material';
 import Header from '../components/Header';
 import Loading from './Loading';
 import { getUser, updateUser } from '../services/userAPI';
+import { CustomContentProfileEdit, CustomStackProfileEdit } from '../styles/profileEdit';
 
 class ProfileEdit extends React.Component {
   state = {
@@ -67,58 +69,69 @@ class ProfileEdit extends React.Component {
     } else {
       profile = (
         <form>
-          <input
-            name="name"
-            value={ name }
-            type="text"
-            data-testid="edit-input-name"
-            placeholder="Nome"
-            onChange={ this.handleChange }
-          />
-          <input
-            name="email"
-            value={ email }
-            type="text"
-            data-testid="edit-input-email"
-            placeholder="E-mail"
-            onChange={ this.handleChange }
-          />
-          <input
-            name="description"
-            value={ description }
-            type="text"
-            data-testid="edit-input-description"
-            placeholder="Descricao"
-            onChange={ this.handleChange }
-          />
-          <input
-            name="image"
-            value={ image }
-            type="text"
-            data-testid="edit-input-image"
-            placeholder="Imagem"
-            onChange={ this.handleChange }
-          />
-          <button
-            type="button"
-            data-testid="edit-button-save"
-            disabled={ isDisabled }
-            onClick={ this.handleUpdateUser }
-          >
-            Alterar
-          </button>
+          <CustomStackProfileEdit spacing={ 2 } sx={ { marginTop: 10 } }>
+            <TextField
+              name="name"
+              label="Nome"
+              variant="outlined"
+              fullWidth="true"
+              value={ name }
+              type="text"
+              data-testid="edit-input-name"
+              onChange={ this.handleChange }
+            />
+            <TextField
+              name="email"
+              label="E-mail"
+              variant="outlined"
+              fullWidth="true"
+              value={ email }
+              type="text"
+              data-testid="edit-input-email"
+              onChange={ this.handleChange }
+            />
+            <TextField
+              name="description"
+              label="Descrição"
+              variant="outlined"
+              fullWidth="true"
+              value={ description }
+              type="text"
+              data-testid="edit-input-description"
+              onChange={ this.handleChange }
+            />
+            <TextField
+              name="image"
+              label="Url da Imagem"
+              variant="outlined"
+              fullWidth="true"
+              value={ image }
+              type="text"
+              data-testid="edit-input-image"
+              onChange={ this.handleChange }
+            />
+            <Button
+              variant="contained"
+              fullWidth="true"
+              type="button"
+              data-testid="edit-button-save"
+              disabled={ isDisabled }
+              onClick={ this.handleUpdateUser }
+            >
+              Alterar
+            </Button>
+          </CustomStackProfileEdit>
         </form>);
     }
 
-    let isRedirect;
-    if (redirect) {
-      isRedirect = (<Route><Redirect to="/profile" /></Route>);
-    }
+    if (redirect) return (<Redirect to="/profile" />);
+
     return (
       <div data-testid="page-profile-edit">
-        <Header />
-        {profile}
-        {isRedirect}
+        <CustomContentProfileEdit>
+          <Header />
+          {profile}
+        </CustomContentProfileEdit>
       </div>
     );
   }

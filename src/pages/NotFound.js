@@ -1,11 +1,12 @@
 import React from 'react';
+import CustomNotFound from '../styles/notFound';
 
 class NotFound extends React.Component {
   render() {
     return (
-      <div data-testid="page-not-found">
-        <h1>Not found</h1>
-      </div>
+      <CustomNotFound data-testid="page-not-found">
+        <img width={ 700 } src="/assets/notFound.jpg" alt="" />
+      </CustomNotFound>
     );
   }
 }

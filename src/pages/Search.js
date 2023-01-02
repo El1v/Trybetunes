@@ -1,8 +1,21 @@
+import { SearchTwoTone } from '@mui/icons-material';
+import {
+  Box,
+  Button,
+  Card,
+  CardActions,
+  CardContent,
+  CardMedia,
+  Stack, TextField,
+  Typography,
+} from '@mui/material';
 import React from 'react';
 import { Link } from 'react-router-dom';
-import AlbumCard from '../components/AlbumCard';
 import Header from '../components/Header';
 import searchAlbumsAPI from '../services/searchAlbumsAPI';
+import {
+  CustomBoxErrorSearch,
+  CustomSearchBox, CustomBoxResultSearch } from '../styles/search';
 
 class Search extends React.Component {
   state = {
@@ -12,6 +25,7 @@ class Search extends React.Component {
     isLoading: false,
     result: false,
     data: [],
+    firstLoading: true,
   };
 
   handleChange = ({ target }) => {
@@ -33,7 +47,7 @@ class Search extends React.Component {
     const albumList = await searchAlbumsAPI(artistName);
     this.setState({ isLoading: false, result: true });
     // console.log(albumList);
-    this.setState({ artistName: '', data: albumList });
+    this.setState({ artistName: '', data: albumList, firstLoading: false });
   };
 
   render() {
@@ -44,17 +58,19 @@ class Search extends React.Component {
       isLoading,
       result,
       data,
+      firstLoading,
     } = this.state;
 
+    const MAX_LENGTH_NAME = 15;
     let searching;
     let resultSearch;
 
     // Mostra a mensagem com resultado dos albuns
     if (result) {
       resultSearch = (
-        <p>
+        <Typography gutterBottom variant="h6">
           {`Resultado de álbuns de: ${lastArtistName}`}
-        </p>
+        </Typography>
       );
     } else {
       resultSearch = (
@@ -64,17 +80,20 @@ class Search extends React.Component {
     // Faz a verificacao do isLoading
     if (isLoading === false) {
       searching = (
-        <div>
-          <input
+        <Stack direction="row" spacing={ 1 }>
+          <TextField
             name="artistName"
+            label="Nome do Artista"
+            variant="outlined"
             value={ artistName }
             type="text"
-            placeholder="Nome do Artista"
             data-testid="search-artist-input"
             onChange={ this.handleChange }
           />
-          <button
+          <Button
             type="button"
+            variant="contained"
+            endIcon={ <SearchTwoTone /> }
             data-testid="search-artist-button"
             disabled={ isDisabled }
             onClick={ async () => {
@@ -82,37 +101,61 @@ class Search extends React.Component {
             } }
           >
             Pesquisar
-          </button>
-        </div>);
+          </Button>
+        </Stack>);
     }
+
     // faz a verificao se existe algum album
     let listaAlbuns;
     if (data.length > 0) {
       listaAlbuns = data.map((element) => (
-        <div key={ element.collectionId }>
-          <AlbumCard
-            collectionImage={ element.artworkUrl100 }
-            artistName={ element.artistName }
+        <Card key={ element.collectionName } sx={ { width: 245, margin: '0.5rem' } }>
+          <CardMedia
+            component="img"
+            alt={ element.collectionName }
+            height="140"
+            image={ element.artworkUrl100 }
           />
-          <Link
-            data-testid={ `link-to-album-${element.collectionId}` }
-            to={ `/album/${element.collectionId}` }
-          >
-            {element.collectionName}
-          </Link>
-        </div>
+          <CardContent>
+            <Typography gutterBottom variant="h6" component="div">
+              {element.collectionName.length > MAX_LENGTH_NAME
+                ? `${element.collectionName
+                  .slice(0, MAX_LENGTH_NAME)}...` : element.collectionName}
+            </Typography>
+          </CardContent>
+          <CardActions>
+            <Link
+              data-testid={ `link-to-album-${element.collectionId}` }
+              to={ `/album/${element.collectionId}` }
+            >
+              <Button size="small">Mais detalhes</Button>
+
+            </Link>
+          </CardActions>
+        </Card>
       ));
-    } else {
-      listaAlbuns = <p>Nenhum álbum foi encontrado</p>;
+    } else if (firstLoading === false) {
+      listaAlbuns = (
+        <CustomBoxErrorSearch>
+          <Typography gutterBottom variant="h6">
+            Oops... nenhum álbum foi encontrado
+          </Typography>
+        </CustomBoxErrorSearch>);
     }
 
     return (
-      <div data-testid="page-search">
+      <Box data-testid="page-search">
         <Header />
-        {searching}
-        {resultSearch}
-        {listaAlbuns}
-      </div>
+        <CustomSearchBox>
+          {searching}
+        </CustomSearchBox>
+        <CustomBoxResultSearch>
+          {resultSearch}
+        </CustomBoxResultSearch>
+        <CustomBoxResultSearch>
+          {listaAlbuns}
+        </CustomBoxResultSearch>
+      </Box>
     );
   }
 }

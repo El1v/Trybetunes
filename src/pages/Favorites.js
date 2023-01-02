@@ -1,8 +1,10 @@
 import React from 'react';
+import { Typography } from '@mui/material';
 import Header from '../components/Header';
 import Loading from './Loading';
 import MusicCard from '../components/MusicCard';
 import { getFavoriteSongs, removeSong } from '../services/favoriteSongsAPI';
+import { CustomBoxAlbumList } from '../styles/album';
 
 class Favorites extends React.Component {
   state = {
@@ -45,27 +47,37 @@ class Favorites extends React.Component {
 
     if (isLoading === false) {
       favorites = (
-        <div>
+        <CustomBoxAlbumList>
           {/* {console.log(favoriteSongs.length)} */}
           {favoriteSongs.map((element) => (
             <MusicCard
+              previewUrl={ element.previewUrl }
               key={ element.trackId }
               trackName={ element.trackName }
               trackId={ element.trackId }
+              artworkUrl100={ element.artworkUrl100 }
               value={ element.trackName }
               onChange={ () => this.removeSong(element) }
               checked={ favoriteSongsTrackName.includes(element.trackName.toString()) }
             />
           )) }
-        </div>);
+        </CustomBoxAlbumList>);
     } else {
       favorites = <Loading />;
     }
 
+    if (favoriteSongs.length === 0) {
+      favorites = (
+        <Typography gutterBottom variant="h6">
+          Oops... parece que você não favoritou nenhuma música ainda
+        </Typography>);
+    }
     return (
       <div data-testid="page-favorites">
         <Header />
-        {favorites}
+        <CustomBoxAlbumList>
+          {favorites}
+        </CustomBoxAlbumList>
       </div>
     );
   }

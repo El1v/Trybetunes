@@ -1,10 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Stack, Typography } from '@mui/material';
 import Header from '../components/Header';
 import getMusics from '../services/musicsAPI';
 import MusicCard from '../components/MusicCard';
 import { addSong, getFavoriteSongs, removeSong } from '../services/favoriteSongsAPI';
 import Loading from './Loading';
+import { CustomBoxAlbumList, CustomContentAlbum } from '../styles/album';
 
 class Album extends React.Component {
   state = {
@@ -69,17 +71,32 @@ class Album extends React.Component {
 
     if (isLoading === false) {
       albumList = (
-        <div>
+        <CustomBoxAlbumList>
           {
             data.map((element, index) => (index === 0 ? (
-              <div key={ element.artistId }>
-                <p data-testid="artist-name">{element.artistName}</p>
-                <p data-testid="album-name">{element.collectionName}</p>
-              </div>
+              <CustomContentAlbum>
+                <Stack key={ element.artistId } spacing={ 1 }>
+                  <Typography
+                    data-testid="artist-name"
+                    gutterBottom
+                    variant="h6"
+                  >
+                    {element.artistName}
+                  </Typography>
+                  <Typography
+                    data-testid="album-name"
+                    gutterBottom
+                    variant="h6"
+                  >
+                    {element.collectionName}
+                  </Typography>
+                </Stack>
+              </CustomContentAlbum>
             ) : (<MusicCard
               key={ element.trackId }
               trackName={ element.trackName }
               previewUrl={ element.previewUrl }
+              artworkUrl100={ element.artworkUrl100 }
               trackId={ element.trackId }
               value={ element.trackName }
               onChange={ (e) => {
@@ -89,7 +106,7 @@ class Album extends React.Component {
               checked={ favoriteSongs.includes(element.trackName.toString()) }
             />)))
           }
-        </div>);
+        </CustomBoxAlbumList>);
     } else {
       albumList = <Loading />;
     }

@@ -1,7 +1,16 @@
 import React from 'react';
 import { Redirect, Route } from 'react-router-dom';
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
 import { createUser } from '../services/userAPI';
 import Loading from './Loading';
+import {
+  CustomContentLogin,
+  CustomAsideLogin,
+  CustomFormLogin,
+  CustomStackLogin,
+  CustomImage,
+} from '../styles/login';
 
 class Login extends React.Component {
   state = {
@@ -27,31 +36,45 @@ class Login extends React.Component {
     const { user, isDisabled, isLoading } = this.state;
 
     return (
-      <div data-testid="page-login">
-        <h1>TrybeTunes</h1>
-        <input
-          name="user"
-          value={ user }
-          type="text"
-          placeholder="Nome"
-          data-testid="login-name-input"
-          onChange={ this.handleChange }
-        />
-        <button
-          type="button"
-          data-testid="login-submit-button"
-          disabled={ isDisabled }
-          onClick={ async () => {
-            this.setState({ isLoading: 'loading' });
-            await createUser({ name: user });
-            this.setState({ isLoading: 'redirect' });
-          } }
-        >
-          Entrar
-        </button>
-        {isLoading === 'loading' && <Loading />}
-        {isLoading === 'redirect' && <Route><Redirect to="/search" /></Route>}
-      </div>
+      <CustomContentLogin data-testid="page-login">
+        {/* <h1>TrybeTunes</h1> */}
+        <CustomAsideLogin>
+          <img width={ 700 } src="/assets/ilustracao.jpg" alt="" />
+        </CustomAsideLogin>
+
+        <CustomFormLogin elevation={ 3 }>
+          <CustomStackLogin spacing={ 2 }>
+            <CustomImage width={ 200 } src="/assets/icon.jpg" alt="" />
+            <TextField
+              id="user"
+              label="Nome"
+              variant="outlined"
+              name="user"
+              fullWidth="true"
+              value={ user }
+              type="text"
+              data-testid="login-name-input"
+              onChange={ this.handleChange }
+            />
+
+            <Button
+              variant="contained"
+              data-testid="login-submit-button"
+              fullWidth="true"
+              disabled={ isDisabled }
+              onClick={ async () => {
+                this.setState({ isLoading: 'loading' });
+                await createUser({ name: user });
+                this.setState({ isLoading: 'redirect' });
+              } }
+            >
+              Entrar
+            </Button>
+            {isLoading === 'loading' && <Loading />}
+            {isLoading === 'redirect' && <Route><Redirect to="/search" /></Route>}
+          </CustomStackLogin>
+        </CustomFormLogin>
+      </CustomContentLogin>
     );
   }
 }
