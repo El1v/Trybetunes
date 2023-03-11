@@ -13,3 +13,5 @@
 > - Ver a lista de músicas favoritas;
 > - Ver o perfil da pessoa logada;
 > - Editar o perfil da pessoa logada;
+
+##### Deploy: https://trybetunes-sable.vercel.app/
